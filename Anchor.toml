@@ -1,0 +1,16 @@
+[features]
+seeds = false
+[programs.localnet]
+solana_social = "DcA3Wm73RXRMmGTRPVfPGNdM5HRobWL6jMBTHEbDnUAL"
+[programs.devnet]
+solana_social = "DcA3Wm73RXRMmGTRPVfPGNdM5HRobWL6jMBTHEbDnUAL"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "devnet"
+wallet = "/home/zach/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
