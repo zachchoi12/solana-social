@@ -4,7 +4,7 @@ import { FeedContext } from './feed';
 import { MainContext } from './main';
 
 export const Filter = () => {
-    const { address, posts } = useContext(FeedContext);
+    const { address, posts, topic } = useContext(FeedContext);
     const { workspace }: any = useContext(MainContext);
     const { connected } = useWallet();
     const addressChange = (event: any) => {
@@ -14,6 +14,9 @@ export const Filter = () => {
         posts.filterMyPosts ? address.setFilterAddress('') : address.setFilterAddress(workspace && workspace.wallet ? workspace.wallet?.publicKey.toBase58() : '');
         posts.setFilterMyPosts((prev: boolean) => !prev);
     };
+    const topicChange = (event: any) => {
+        topic.setFilterTopic(event.target.value);
+    }
     useEffect(() => {
         if (!workspace || !workspace.wallet) {
             address.setFilterAddress('');
@@ -22,9 +25,13 @@ export const Filter = () => {
     return (
         <div className='py-[1%]'>
             <div className='flex flex-row'>
-                <div className='basis-4/5'>
+                <div className='basis-2/5'>
                     <label htmlFor='address' className='sr-only'>Filter by address</label>
-                    <input type='text' name='address' id='address' className='shadow-sm focus:ring-phantom focus:border-phantom block w-full sm:text-sm border-gray-300 rounded-md' placeholder='Filter by address' value={ address.filterAddress } onChange={ addressChange } disabled={ posts.filterMyPosts }/>
+                    <input type='text' name='address' id='address' className='shadow-sm focus:ring-phantom focus:border-phantom block w-full sm:text-sm border-gray-300 rounded-md' placeholder='Filter by address (exact matches only)' value={ address.filterAddress } onChange={ addressChange } disabled={ posts.filterMyPosts }/>
+                </div>
+                <div className='basis-2/5 px-5'>
+                    <label htmlFor='address' className='sr-only'>Filter by topic</label>
+                    <input type='text' name='topic' id='topic' className='shadow-sm focus:ring-phantom focus:border-phantom block w-full sm:text-sm border-gray-300 rounded-md' placeholder='Filter by topic (exact matches only)' value={ topic.filterTopic } onChange={ topicChange }/>
                 </div>
                 <div className='basis-1/5'>
                     <label htmlFor='default-toggle' className='inline-flex relative items-center cursor-pointer float-right'>

@@ -1,7 +1,7 @@
 import { bs58 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 import { Post } from "./models";
 
-export const fetchPosts = async (program: any, filters = []) => {
+export const fetchPosts = async (program: any, filters: any[] = []) => {
     const posts = await program.account.post.all(filters);
     return posts.map((post: any) => new Post(post.publicKey, post.account));
 };

@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { sendPost } from './api/send-post';
 import { MainContext } from './main';
+import { FeedContext } from './feed';
 
-export const Input = (props: any) => {
+export const Input = () => {
     const { workspace, notification }: any = useContext(MainContext);
+    const { feed }: any = useContext(FeedContext);
     const [content, setContent] = useState('');
     const [topic, setTopic] = useState('');
     const [loading, setLoading] = useState(false);
@@ -18,7 +20,7 @@ export const Input = (props: any) => {
         setLoading(true);
         sendPost(workspace, topic, content, notification, resetForm).then((post) => {
             setLoading(false);
-            props.includePost(post);
+            feed.setFeed((prev: any) => [post, ...prev]);
         });
     };
     if (!connected) {
@@ -48,10 +50,10 @@ export const Input = (props: any) => {
                             </svg>
                         </div>
                         <input type='text' placeholder='topic' className='rounded-full pl-10 pr-4 py-2 bg-gray-100 border-none focus:ring-0' value={topic} onChange={({target}) => setTopic(target.value)}/>
-                            <div className='flex items-center space-x-5'></div>
-                            <div className='flex-shrink-0'>
-                                <button type='submit' className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-phantom hover:bg-phantom-hover' disabled={loading}>Post</button>
-                            </div>
+                        <div className='flex items-center space-x-5'></div>
+                        <div className='flex-shrink-0'>
+                            <button type='submit' className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-phantom hover:bg-phantom-hover' disabled={loading}>Post</button>
+                        </div>
                     </div>
                 </form>
             </div> }
